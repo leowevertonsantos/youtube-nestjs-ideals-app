@@ -1,0 +1,12 @@
+{
+    "type": "postgres",
+    "host": "127.0.0.1",
+    "port": "5432",
+    "username": "postgres",
+    "password": "idealsapp",
+    "database": "ideals",
+    "synchronize": true,
+    "logging": true,
+    "entities": [
+        "./dist/**/*.entity.{ts,js}"]
+}
