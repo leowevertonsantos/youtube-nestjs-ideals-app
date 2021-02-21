@@ -7,7 +7,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { IdeaDTO } from './dtos/idea.dto';
+import { IdeaDTO } from './models/dtos/idea.dto';
 import { IdeaService } from './idea.service';
 
 @Controller('idea')
