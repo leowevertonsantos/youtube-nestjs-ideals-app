@@ -5,12 +5,12 @@ services:
     image: postgres
     restart: always
     volumes:
-      - /idealsapp/data:/var/lib/postgresql/data
+      - /ideasapp2/data:/var/lib/postgresql/data
     ports:
       - 5432:5432
     environment:
-      POSTGRES_PASSWORD: idealsapp
-      POSTGRES_DB: ideals
+      POSTGRES_PASSWORD: ideasapp
+      POSTGRES_DB: ideas
 
   adminer:
     image: adminer

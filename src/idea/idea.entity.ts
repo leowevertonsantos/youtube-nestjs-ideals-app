@@ -1,13 +1,13 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity('ideal')
-export class IdealEntity {
+@Entity('idea')
+export class IdeaEntity {
 
     @PrimaryGeneratedColumn('uuid')
     public id: string;
 
     @Column()
-    public ideal: string;
+    public idea: string;
 
     @Column()
     public description: string;
