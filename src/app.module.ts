@@ -6,12 +6,14 @@ import { AppService } from './app.service';
 import { IdeaModule } from './idea/idea.module';
 import { HttpErrorFilter } from './shared/filters/http-error.filter';
 import { LoggingInterceptor } from './shared/interceptors/logging.interceptor';
+import { ValidationPipe } from './shared/pipes/validations/validation.pipe';
 
 @Module({
   imports: [TypeOrmModule.forRoot(), IdeaModule],
   controllers: [AppController],
   providers: [
     AppService,
+    ValidationPipe,
     {
       provide: APP_FILTER,
       useClass: HttpErrorFilter,
