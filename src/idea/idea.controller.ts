@@ -13,7 +13,7 @@ import { IdeaDTO } from './models/dtos/idea.dto';
 import { IdeaService } from './idea.service';
 import { ValidationPipe } from 'src/shared/pipes/validations/validation.pipe';
 
-@Controller('idea')
+@Controller('api/idea')
 export class IdeaController {
   private logger: Logger = new Logger('IdeaController');
 
