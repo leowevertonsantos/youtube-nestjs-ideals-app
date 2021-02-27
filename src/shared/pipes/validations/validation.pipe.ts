@@ -12,9 +12,6 @@ import { validate } from 'class-validator';
 @Injectable()
 export class ValidationPipe implements PipeTransform {
   async transform(value: any, metadata: ArgumentMetadata) {
-    console.log('Value: ', value);
-    console.log('metadata: ', metadata);
-
     if (value instanceof Object && this.isEmpty(value)) {
       throw new HttpException(
         'Validation Failed. No Body submmited',
@@ -26,8 +23,7 @@ export class ValidationPipe implements PipeTransform {
 
     const object = plainToClass(metadata.metatype, value);
     const errors = await validate(object);
-    console.log(errors);
-
+    
     if (errors.length > 0) {
       throw new HttpException(
         `Validation Failed: ${this.formatErrors(errors)}`,
