@@ -12,9 +12,7 @@ export class UserController {
   constructor(private userService: UserService) {}
 
   @Get('users')
-  @UseGuards(AuthGuard)
-  public finAllUsers(@UserReq() user) {
-    console.log("CONTROLLER: ",user);
+  public finAllUsers() {
     return this.userService.findAllUsers();
   }
 
