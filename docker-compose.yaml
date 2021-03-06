@@ -5,7 +5,7 @@ services:
     image: postgres
     restart: always
     volumes:
-      - /ideasapp2/data:/var/lib/postgresql/data
+      - /ideasapp/data:/var/lib/postgresql/data
     ports:
       - 5432:5432
     environment:

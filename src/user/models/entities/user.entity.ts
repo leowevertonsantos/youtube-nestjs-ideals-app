@@ -3,6 +3,8 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinTable,
+  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -11,8 +13,6 @@ import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
 import { UserVO } from '../vos/user.vo';
 import { IdeaEntity } from 'src/idea/models/entities/idea.entity';
-import { type } from 'os';
-import { Exclude } from 'class-transformer';
 
 @Entity('user')
 export class UserEntity {
@@ -34,16 +34,30 @@ export class UserEntity {
   @OneToMany(type => IdeaEntity, idea => idea.author)
   public ideas: IdeaEntity[];
 
+  @ManyToMany(type => IdeaEntity, {cascade: true})
+  @JoinTable()
+  public booksmarks: IdeaEntity[];
+
   @BeforeInsert()
   public async hashPassword() {
     this.password = await bcrypt.hash(this.password, 10);
   }
 
   toResponseObject(showToken: boolean = false) {
+    let user: UserVO  = new UserVO(this.id, this.username, this.created);
+
     if (showToken) {
-      return new UserVO(this.id, this.username, this.created, this.token);
+      user.token = this.token;
     }
-    return new UserVO(this.id, this.username, this.created);
+
+    if (this.ideas) {
+      user.ideas = this.ideas;
+    }
+
+    if(this.booksmarks){
+      user.booksmarks = this.booksmarks;
+    }
+    return  user;
   }
 
   async comparePassword(attemptPassword): Promise<boolean> {

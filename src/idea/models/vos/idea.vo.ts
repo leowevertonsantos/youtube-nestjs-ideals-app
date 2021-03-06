@@ -7,4 +7,6 @@ export class IdeaVO{
     public idea: string;
     public description: string;
     public author: UserVO;
+    public upvotes?: number;
+    public downvotes?: number;
 }

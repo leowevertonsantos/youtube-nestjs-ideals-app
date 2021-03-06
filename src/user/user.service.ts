@@ -13,7 +13,7 @@ export class UserService {
   ) {}
 
   public async findAllUsers(): Promise<UserVO[]> {
-    const users = await this.userRepository.find();
+    const users = await this.userRepository.find({relations: ['ideas', 'booksmarks']});
     return users.map((user) => user.toResponseObject());
   }
 
