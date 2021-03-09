@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, UseGuards, UsePipes } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Query, UseGuards, UsePipes } from '@nestjs/common';
 import { AuthGuard } from 'src/shared/guards/auth.guard';
 import { ValidationPipe } from 'src/shared/pipes/validations/validation.pipe';
 import { UserReq } from 'src/user/models/user.decoration';
@@ -13,8 +13,8 @@ export class CommentController {
 
   @Get('idea/:id')
   @UseGuards(AuthGuard)
-  public findCommentsByIdea(@Param('id') ideaID: string): Promise<CommentEntity[]>{
-    return this.commentService.findByIdea(ideaID);
+  public findCommentsByIdea(@Param('id') ideaID: string, @Query('page', ParseIntPipe) page: number): Promise<CommentEntity[]>{
+    return this.commentService.findByIdea(ideaID, page);
   }
 
   @Get('user/:id')

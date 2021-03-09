@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Logger, Post, Req, Request, UseGuards, UsePipes } from '@nestjs/common';
+import { Body, Controller, Get, Logger, ParseIntPipe, Post, Query, Req, Request, UseGuards, UsePipes } from '@nestjs/common';
 import { AuthGuard } from 'src/shared/guards/auth.guard';
 import { ValidationPipe } from 'src/shared/pipes/validations/validation.pipe';
 import { UserDTO } from './models/dtos/user.dto';
@@ -12,8 +12,8 @@ export class UserController {
   constructor(private userService: UserService) {}
 
   @Get('users')
-  public finAllUsers() {
-    return this.userService.findAllUsers();
+  public finAllUsers(@Query('page', ParseIntPipe) page: number) {
+    return this.userService.findAllUsers(page);
   }
 
   @Post('login')

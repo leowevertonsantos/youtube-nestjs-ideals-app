@@ -5,8 +5,10 @@ import {
   Get,
   Logger,
   Param,
+  ParseIntPipe,
   Post,
   Put,
+  Query,
   UseGuards,
   UsePipes,
 } from '@nestjs/common';
@@ -25,9 +27,22 @@ export class IdeaController {
 
   @Get()
   @UseGuards(AuthGuard)
-  public findAll(@UserReq() userId: string): Promise<any> {
-    return this.ideaService.findAll(userId);
+  public findAll(@Query('page', ParseIntPipe) page: number): Promise<any> {
+    return this.ideaService.findAll(page);
   }
+
+  @Get('newest')
+  @UseGuards(AuthGuard)
+  public findNewest(@Query('page', ParseIntPipe) page: number): Promise<any> {
+    return this.ideaService.findAll(page, true);
+  }
+
+  @Get()
+  @UseGuards(AuthGuard)
+  public findAllByUser(@UserReq() userId: string): Promise<any> {
+    return this.ideaService.findAllByUser(userId);
+  }
+
   @Post()
   @UseGuards(AuthGuard)
   @UsePipes(ValidationPipe)

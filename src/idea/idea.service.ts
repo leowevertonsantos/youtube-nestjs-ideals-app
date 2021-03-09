@@ -20,10 +20,24 @@ export class IdeaService {
 
 
 
-  public async findAll(userId: string): Promise<IdeaVO[]> {
+  public async findAllByUser(userId: string): Promise<IdeaVO[]> {
     const ideas = await this.ideaRepository.find({
       where: { author: userId },
       relations: ['author', 'upvotes', 'downvotes', 'comments'],
+    });
+
+    return ideas.map((idea) => {
+      return this.toResponseObject(idea);
+    });
+  }
+
+  public async findAll(page:number = 1, newest?: boolean): Promise<IdeaVO[]> {
+    const ideas = await this.ideaRepository.find({
+      relations: ['author', 'upvotes', 'downvotes', 'comments'],
+      take: 25,
+      skip: 25* (page - 1),
+      order: newest && { createdAt: 'DESC' }
+
     });
 
     return ideas.map((idea) => {

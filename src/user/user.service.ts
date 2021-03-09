@@ -11,8 +11,12 @@ export class UserService {
     @InjectRepository(UserEntity) public userRepository: Repository<UserEntity>,
   ) {}
 
-  public async findAllUsers(): Promise<UserVO[]> {
-    const users = await this.userRepository.find({relations: ['ideas', 'booksmarks']});
+  public async findAllUsers(page: number = 1): Promise<UserVO[]> {
+    const users = await this.userRepository.find({
+      relations: ['ideas', 'booksmarks'],
+      take: 25,
+      skip: 25 * (page - 1),
+    });
     return users.map((user) => user.toResponseObject());
   }
 
@@ -22,23 +26,29 @@ export class UserService {
     });
 
     if (!user || !(await user.comparePassword(userDTO.password))) {
-      throw new HttpException('Usuário/Senha inválido', HttpStatus.UNAUTHORIZED);
+      throw new HttpException(
+        'Usuário/Senha inválido',
+        HttpStatus.UNAUTHORIZED,
+      );
     }
 
     return user.toResponseObject(true);
   }
 
-
-  public async signup(userDTO: UserDTO): Promise<UserVO>{
-    const user = await this.userRepository.findOne({username: userDTO.username});
-    if(user){
-        throw new HttpException(`Already exists user with username: ${userDTO.username}`, HttpStatus.CONFLICT);
+  public async signup(userDTO: UserDTO): Promise<UserVO> {
+    const user = await this.userRepository.findOne({
+      username: userDTO.username,
+    });
+    if (user) {
+      throw new HttpException(
+        `Already exists user with username: ${userDTO.username}`,
+        HttpStatus.CONFLICT,
+      );
     }
-    
+
     const userToInsert = this.userRepository.create(userDTO);
     await this.userRepository.save(userToInsert);
 
     return userToInsert.toResponseObject(true);
   }
-  
 }
