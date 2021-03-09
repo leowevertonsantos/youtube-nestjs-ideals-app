@@ -8,9 +8,10 @@ import { HttpErrorFilter } from './shared/filters/http-error.filter';
 import { LoggingInterceptor } from './shared/interceptors/logging.interceptor';
 import { ValidationPipe } from './shared/pipes/validations/validation.pipe';
 import { UserModule } from './user/user.module';
+import { CommentModule } from './comment/comment.module';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(), IdeaModule, UserModule],
+  imports: [TypeOrmModule.forRoot(), IdeaModule, UserModule, CommentModule],
   controllers: [AppController],
   providers: [
     AppService,

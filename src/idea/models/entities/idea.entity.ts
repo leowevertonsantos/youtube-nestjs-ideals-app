@@ -1,5 +1,6 @@
+import { CommentEntity } from "src/comment/models/enttities/comment.entity";
 import { UserEntity } from "src/user/models/entities/user.entity";
-import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity('idea')
 export class IdeaEntity {
@@ -12,7 +13,6 @@ export class IdeaEntity {
 
     @Column()
     public description: string;
-
 
     @CreateDateColumn({name: 'created_at'})
     public createdAt: Date;
@@ -31,4 +31,6 @@ export class IdeaEntity {
     @JoinTable()
     public downvotes: UserEntity[];
     
+    @OneToMany(type => CommentEntity, comment => comment.idea, {cascade: true})
+    public comments: CommentEntity[];
 }

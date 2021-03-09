@@ -9,4 +9,5 @@ export class IdeaVO{
     public author: UserVO;
     public upvotes?: number;
     public downvotes?: number;
+    public comments?: any
 }

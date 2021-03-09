@@ -23,7 +23,7 @@ export class IdeaService {
   public async findAll(userId: string): Promise<IdeaVO[]> {
     const ideas = await this.ideaRepository.find({
       where: { author: userId },
-      relations: ['author', 'upvotes', 'downvotes'],
+      relations: ['author', 'upvotes', 'downvotes', 'comments'],
     });
 
     return ideas.map((idea) => {
@@ -49,6 +49,7 @@ export class IdeaService {
   public async findById(id: string, userId: string): Promise<IdeaVO> {
     let idea: IdeaEntity = await this.ideaRepository.findOne({
       where: { id: id, author: userId },
+      relations: ['author', 'upvotes', 'downvotes', 'comments']
     });
     if (!idea) {
       throw new HttpException('Idea Not found', HttpStatus.NOT_FOUND);
@@ -88,6 +89,7 @@ export class IdeaService {
       description,
       updatedAt,
       idea,
+      comments
     } = ideaToResponse;
 
     let response: IdeaVO = {
@@ -96,6 +98,7 @@ export class IdeaService {
       createdAt,
       updatedAt,
       idea,
+      comments,
       author: author?.toResponseObject(),
     };
 
