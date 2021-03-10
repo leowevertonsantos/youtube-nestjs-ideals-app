@@ -1,0 +1,11 @@
+type Comment{
+    id: ID!
+    created: String!
+    updated: String!
+    comment: String!
+    # author: User
+}
+
+type Query{
+    comments(page: Boolean): [Comment!]
+}

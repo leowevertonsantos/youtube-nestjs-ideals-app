@@ -20,6 +20,11 @@ export class UserService {
     return users.map((user) => user.toResponseObject());
   }
 
+  public async findUser(username: string){
+    const user = await this.userRepository.findOne({where: {username}, relations: ['ideas', 'booksmarks']});
+    return user.toResponseObject();
+  }
+
   public async signin(userDTO: UserDTO): Promise<UserVO> {
     const user = await this.userRepository.findOne({
       where: { username: userDTO.username },
